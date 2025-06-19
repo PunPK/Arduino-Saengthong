@@ -5,14 +5,12 @@ int trigPin = 11;   // ขาที่ใช้ส่งเสียงออก
 int echoPin = 10;   // ขาที่รับเสียงสะท้อนกลับ
 int ledPin1 = 8;     // ขาที่ต่อกับหลอดไฟ LED
 int ledPin2 = 7;     // ขาที่ต่อกับหลอดไฟ LED
-int ledPin3 = 6;     // ขาที่ต่อกับหลอดไฟ LED
 
 void setup() {
   pinMode(trigPin, ……);  // ตั้งค่าให้ขา trig เป็นขาออก
   pinMode(echoPin, ……);   // ตั้งค่าให้ขา echo เป็นขารับข้อมูล
   pinMode(ledPin1, OUTPUT);   // ตั้งค่าให้ขา LED เป็นขาออก
   pinMode(ledPin2, OUTPUT);   // ตั้งค่าให้ขา LED เป็นขาออก
-  pinMode(ledPin3, OUTPUT);   // ตั้งค่าให้ขา LED เป็นขาออก
   myservo.attach(3);          // กำหนดให้ Servo ใช้ขา 3
   myservo.write(0);           // เริ่มต้นหมุน Servo ที่ 0 องศา
   Serial.begin(9600);         // เริ่มต้นการส่งข้อมูล Serial
@@ -34,41 +32,23 @@ void loop() {
   // รับสัญญาณกลับ และคำนวณระยะ
   duration = pulseIn(echoPin, HIGH);
   distance = duration / 58;
-
 // แสดงผลระยะทาง
   Serial.print("ระยะทาง: ");
   Serial.print(distance);
   Serial.println(" ซม.");
 
-  if (distance < 10) {
+  if (distance < 25) {
   // วัตถุอยู่ใกล้มาก → เปิดทุกดวง
   myservo.write(180); 
   digitalWrite(ledPin1, ……);
   digitalWrite(ledPin2, ……);
-  digitalWrite(ledPin3, ……);
-
-} else if (distance < 25) {
-  // วัตถุอยู่ใกล้ปานกลาง → เปิด 2 ดวง
-  myservo.write(0);
-  digitalWrite(ledPin1, ……);
-  digitalWrite(ledPin2, ……);
-  digitalWrite(ledPin3, ……);
-
-} else if (distance < 50) {
-  // วัตถุเริ่มเข้าใกล้ → เปิดแค่ดวงแรก
-  myservo.write(0);
-  digitalWrite(ledPin1, ……);
-  digitalWrite(ledPin2, ……);
-  digitalWrite(ledPin3, ……);
 
 } else {
   // วัตถุอยู่ไกล → ปิดทุกดวง
   myservo.write(0); 
   digitalWrite(ledPin1, ……);
   digitalWrite(ledPin2, ……);
-  digitalWrite(ledPin3, ……);
 }
 
   delay(100);  // รอ 1 วินาที ก่อนเริ่มวัดใหม่
 }
-
